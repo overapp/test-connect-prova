@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founder Mindset Assessment</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; }
+  .page { max-width: 680px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  #screen-welcome { display: block; }
+  .w-logo { font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: #888; margin-bottom: 3rem; }
+  .w-title { font-size: 32px; font-weight: 500; line-height: 1.2; margin-bottom: 1rem; }
+  .w-desc { font-size: 15px; color: #555; line-height: 1.7; margin-bottom: 2rem; }
+  .w-meta { display: flex; gap: 1.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .w-meta-item { font-size: 13px; color: #888; }
+  .w-meta-item strong { display: block; font-size: 15px; font-weight: 500; color: #1a1a18; }
+  .field-label { font-size: 13px; color: #888; margin-bottom: 6px; }
+  .text-input { width: 100%; padding: 14px 16px; font-size: 15px; border: 1px solid #ddd; border-radius: 10px; background: #fff; outline: none; margin-bottom: 1rem; font-family: inherit; color: #1a1a18; }
+  .text-input:focus { border-color: #1D9E75; }
+  .btn-primary { width: 100%; padding: 15px; background: #1D9E75; color: #fff; font-size: 15px; font-weight: 500; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; transition: opacity .2s; }
+  .btn-primary:hover { opacity: .88; }
+  .btn-secondary { width: 100%; padding: 14px; background: transparent; border: 1.5px solid #1D9E75; color: #1D9E75; font-size: 15px; font-weight: 500; border-radius: 10px; cursor: pointer; font-family: inherit; transition: all .2s; margin-top: .75rem; }
+  .btn-secondary:hover { background: #f0faf6; }
+  .btn-secondary:disabled { opacity: .4; cursor: not-allowed; }
+  #screen-quiz { display: none; }
+  .q-header { position: sticky; top: 0; background: #f5f4f0; padding: 1rem 0 .75rem; margin-bottom: 1.5rem; z-index: 10; border-bottom: 1px solid #e8e6e0; }
+  .q-header-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .q-header-title { font-size: 14px; font-weight: 500; }
+  .q-header-count { font-size: 13px; color: #888; }
+  .prog-track { height: 4px; background: #e8e6e0; border-radius: 99px; }
+  .prog-fill { height: 4px; background: #1D9E75; border-radius: 99px; transition: width .3s ease; width: 0%; }
+  .q-row { padding: 16px 0; border-bottom: 1px solid #e8e6e0; }
+  .q-text { font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+  .q-num { font-size: 12px; color: #aaa; margin-right: 5px; }
+  .scale-row { display: flex; gap: 6px; }
+  .scale-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 4px 7px; border: 1px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; font-family: inherit; transition: background .12s, border-color .12s; }
+  .scale-btn:hover { background: #f0faf6; border-color: #9FE1CB; }
+  .scale-btn.selected { border-color: #1D9E75; background: #E1F5EE; }
+  .scale-btn.selected .sn, .scale-btn.selected .sw { color: #0F6E56; }
+  .sn { font-size: 15px; font-weight: 500; color: #1a1a18; }
+  .sw { font-size: 10px; color: #999; text-align: center; line-height: 1.2; }
+  .q-row.missing .scale-btn { border-color: #F09595; }
+  .submit-wrap { padding: 2rem 0 1rem; }
+  .missing-msg { font-size: 13px; color: #a32d2d; text-align: center; margin-top: 8px; display: none; }
+  #screen-results { display: none; }
+  .r-name { font-size: 24px; font-weight: 500; margin-bottom: 4px; }
+  .r-sub { font-size: 14px; color: #888; margin-bottom: 2rem; }
+  .area-block { margin-bottom: 2rem; }
+  .area-title { font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: #999; padding-bottom: 8px; border-bottom: 1px solid #e8e6e0; margin-bottom: 14px; display: flex; justify-content: space-between; }
+  .pol-row { margin-bottom: 16px; }
+  .pole-labels { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+  .pole-l { font-size: 12px; color: #999; max-width: 44%; line-height: 1.3; }
+  .pole-l.dominant { font-weight: 500; color: #1a1a18; }
+  .bar-track { position: relative; height: 10px; border-radius: 99px; background: linear-gradient(to right, #1D9E75, #c8c5bc, #D85A30); margin-bottom: 4px; }
+  .bar-dot { position: absolute; top: 50%; width: 20px; height: 20px; background: #fff; border: 2.5px solid; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 1px 5px rgba(0,0,0,.18); }
+  .score-lbl { font-size: 11px; color: #aaa; text-align: center; }
+  .profile-card { background: #fff; border: 1px solid #e8e6e0; border-radius: 16px; overflow: hidden; margin-top: 2rem; }
+  .profile-top { padding: 1.75rem 1.5rem 1.5rem; border-bottom: 1px solid #f0efe9; }
+  .profile-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 6px; }
+  .profile-archetype-name { font-size: 26px; font-weight: 500; line-height: 1.2; margin-bottom: .75rem; color: #1a1a18; }
+  .profile-tagline { font-size: 15px; color: #555; line-height: 1.65; font-style: italic; margin-bottom: 1.25rem; }
+  .profile-body { padding: 0 1.5rem 1.5rem; }
+  .profile-section { border-top: 1px solid #f0efe9; padding-top: 1.25rem; margin-top: 1.25rem; }
+  .profile-section-label { font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: #aaa; margin-bottom: 8px; }
+  .profile-section-text { font-size: 14px; color: #444; line-height: 1.8; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag { font-size: 12px; padding: 4px 11px; border-radius: 99px; }
+  .tag.s { background: #E1F5EE; color: #0F6E56; }
+  .tag.g { background: #f0efe9; color: #666; }
+  .mini-bars { margin-top: 1rem; display: flex; flex-direction: column; gap: 7px; }
+  .mini-row { display: flex; align-items: center; gap: 8px; }
+  .mini-label { font-size: 12px; color: #999; width: 130px; flex-shrink: 0; }
+  .mini-track { flex: 1; height: 5px; background: #f0efe9; border-radius: 99px; }
+  .mini-fill { height: 5px; border-radius: 99px; }
+  .mini-val { font-size: 12px; color: #aaa; width: 32px; text-align: right; }
+  .actions-wrap { margin-top: 1.5rem; }
+  .status-msg { font-size: 13px; text-align: center; margin-top: .75rem; min-height: 20px; color: #aaa; }
+  .status-msg.ok { color: #0F6E56; }
+  .status-msg.err { color: #a32d2d; }
+  .btn-restart { margin-top: .75rem; width: 100%; padding: 13px; background: transparent; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; color: #888; cursor: pointer; font-family: inherit; }
+  .btn-restart:hover { background: #f0efe9; }
+  @media (max-width: 480px) { .sw { display: none; } .scale-btn { padding: 10px 4px; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div id="screen-welcome">
+  <p class="w-logo">FMA · Founder Mindset Assessment</p>
+  <h1 class="w-title">Scopri il tuo DNA imprenditoriale</h1>
+  <p class="w-desc">71 domande per mappare come pensi, agisci e ti relazioni. Non esistono risposte giuste o sbagliate — rispondi pensando a come ti comporti davvero, non come vorresti comportarti.</p>
+  <div class="w-meta">
+    <div class="w-meta-item"><strong>71</strong>domande</div>
+    <div class="w-meta-item"><strong>~15 min</strong>tempo stimato</div>
+    <div class="w-meta-item"><strong>4 aree</strong>analizzate</div>
+  </div>
+  <p class="field-label">Il tuo nome</p>
+  <input class="text-input" id="input-name" type="text" placeholder="Es. Marco" autocomplete="off" />
+  <p class="field-label">La tua email</p>
+  <input class="text-input" id="input-email" type="email" placeholder="Es. marco@email.com" autocomplete="off" style="margin-bottom:1.5rem;" />
+  <button class="btn-primary" onclick="startQuiz()">Inizia il test →</button>
+</div>
+
+<div id="screen-quiz">
+  <div class="q-header">
+    <div class="q-header-top">
+      <span class="q-header-title" id="q-header-name">FMA</span>
+      <span class="q-header-count" id="q-count">0 / 71</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+  </div>
+  <div id="questions-container"></div>
+  <div class="submit-wrap">
+    <button class="btn-primary" onclick="handleSubmit()">Vedi i miei risultati →</button>
+    <p class="missing-msg" id="missing-msg"></p>
+  </div>
+</div>
+
+<div id="screen-results">
+  <p class="r-name" id="r-name">Il tuo profilo</p>
+  <p class="r-sub">Founder Mindset Assessment</p>
+  <div id="r-areas"></div>
+  <div class="profile-card" id="r-profile-card" style="display:none"></div>
+  <div class="actions-wrap">
+    <button class="btn-secondary" id="btn-email" onclick="requestEmail()" disabled>✉ Ricevi il report completo via email</button>
+    <p class="status-msg" id="status-msg"></p>
+    <button class="btn-restart" onclick="restart()">↺ Ricomincia il test</button>
+  </div>
+</div>
+
+</div>
+<script>
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwAJC7lmtaWTQ4eqNYC8qGwOsPF4h66DVc5PGu1cEq5l84OorYsX65pD9iGNAThWm58gA/exec';
+const LABELS = ['Mai','Raramente','A volte','Spesso','Sempre'];
+const TOTAL = 71;
+
+const Q = [
+  ["Di fronte a un problema che si ripresenta, cerco attivamente metodi di risoluzione nuovi e diversi rispetto al passato.",0,0,1],
+  ["Se entro in un contesto professionale, prendo l'iniziativa per presentarmi e fare la prima mossa con gli altri.",1,0,1],
+  ["Se un imprevisto stravolge un mio progetto all'ultimo minuto, modifico la mia strategia con prontezza ed energia positiva.",3,0,1],
+  ["Approfondisco con curiosità notizie e innovazioni riguardanti settori completamente diversi dal mio ambito abituale.",0,0,1],
+  ["Quando inizio un nuovo progetto, mantengo alto il mio livello di motivazione e focus anche a distanza di molte settimane.",2,0,1],
+  ["Prendo le decisioni importanti in ambito professionale basandomi sull'analisi oggettiva dei dati e dei fatti a disposizione.",3,4,1],
+  ["Se un contatto di lavoro non risponde a un messaggio importante, sperimento canali o approcci alternativi.",3,0,1],
+  ["Nelle mie relazioni quotidiane, mi impegno a parlare degli altri esprimendo critiche costruttive ed evitando il pettegolezzo.",1,2,1],
+  ["Prendo decisioni importanti in tempi rapidi, accettando il rischio d'errore pur di evitare il blocco d'azione.",3,1,1],
+  ["Condivido spontaneamente informazioni utili, contatti e opportunità con la mia rete, a prescindere da un ritorno economico immediato.",1,1,1],
+  ["Mantengo la massima serenità e produttività anche quando la mia giornata viene stravolta da imprevisti e sorprese.",3,0,1],
+  ["Se noto un disservizio nel mio ambiente, intervengo in prima persona per risolverlo senza aspettare l'intervento altrui.",2,1,1],
+  ["Durante una conversazione sui progetti, dedico spazio all'ascolto dell'altro facendogli domande mirate.",1,2,1],
+  ["All'inizio della giornata o della settimana, pianifico con chiarezza le mie priorità assolute.",3,2,1],
+  ["Gestisco i compiti burocratici o di routine con puntualità, anticipando le scadenze.",0,1,1],
+  ["Porto avanti i miei obiettivi professionali con determinazione al di là dei dubbi e dallo scetticismo altrui.",2,0,1],
+  ["Quando incontro una persona interessante, acquisisco subito un suo contatto per coltivare la relazione nel tempo.",1,0,1],
+  ["Di fronte a un imprevisto, agisco immediatamente testando soluzioni pratiche sul campo.",3,1,1],
+  ["Se devo passare un weekend intero da solo in casa a leggere o riposare, dopo un po' mi sento spento e sento il bisogno di uscire a vedere gente.",0,2,1],
+  ["Quando commetto un errore, ne assumo la responsabilità e mi concentro subito sulle soluzioni.",2,1,1],
+  ["Riesco a sintetizzare concetti complessi in poche frasi semplici e dirette, andando subito al cuore del problema.",3,3,1],
+  ["Mantengo costante il mio impegno verso un obiettivo anche quando i risultati richiedono molto tempo per manifestarsi.",2,0,1],
+  ["Se ho bisogno di un consiglio o di un'informazione, chiedo supporto direttamente alle persone competenti della mia rete.",1,1,1],
+  ["Di fronte a un cambio di programma, mostro flessibilità nell'adottare soluzioni alternative.",3,0,1],
+  ["In un gruppo di lavoro in cui non conosco nessuno, mi sento a mio agio nel rompere il ghiaccio e avviare la conversazione.",0,2,1],
+  ["Di fronte a una critica sul mio operato, riesco a valutarla come un feedback oggettivo separandola dal mio valore personale.",0,4,1],
+  ["Trovo soluzioni ingegnose ed efficaci per superare gli ostacoli anche quando dispongo di scarse risorse economiche o materiali.",3,1,1],
+  ["Scelgo di acquisire nuove competenze spinto dal desiderio di evoluzione personale e dal piacere di imparare.",2,3,1],
+  ["Durante un dialogo, intercetto lo stato d'animo del mio interlocutore e adatto la mia comunicazione di conseguenza.",1,2,1],
+  ["Propongo collaborazioni o offerte commerciali senza provare ansia o timore di essere rifiutato.",1,3,1],
+  ["Mantengo l'attenzione focalizzata sul compito che sto svolgendo, disattivando o ignorando le notifiche non urgenti.",3,2,1],
+  ["Esprimo le mie idee e le mie emozioni in pubblico con naturalezza e sicurezza.",0,2,1],
+  ["Porto a termine con costanza anche le fasi più ripetitive o burocratiche di un progetto in cui credo.",0,1,1],
+  ["Presento volentieri tra loro persone della mia rete se penso che la loro collaborazione possa creare valore.",1,1,1],
+  ["In mancanza di linee guida chiare da parte di terzi, procedo in autonomia prendendomi il rischio di decidere.",2,1,1],
+  ["Faccio scelte di vita basate sulla mia autorealizzazione, gestendo con serenità le eventuali aspettative contrarie della società o della famiglia.",2,3,1],
+  ["Ascolto i problemi di un collega o amico sospendendo il giudizio e cercando di comprendere il suo punto di vista.",1,2,1],
+  ["Di fronte a un rifiuto verso una mia proposta, la rielaboro e la presento a nuovi interlocutori in tempi brevi.",1,3,1],
+  ["Concludo le mie giornate con la chiara consapevolezza di aver portato a termine le attività a maggior priorità.",2,0,1],
+  ["Preferisco confrontarmi tempestivamente con partner o collaboratori prima di prendere decisioni importanti.",2,1,1],
+  ["Mantengo la calma e l'equilibrio interiore anche quando le dinamiche non seguono il corso desiderato.",0,4,1],
+  ["Accetto con filosofia e pazienza i rallentamenti o le deviazioni dai miei piani originari.",3,0,1],
+  ["Quando spiego un'idea o assegno un compito a qualcuno, mi assicuro che abbia capito chiedendogli un feedback.",3,3,1],
+  ["Affronto in prima persona e con determinazione le sfide burocratiche e organizzative complesse.",0,1,1],
+  ["Tendo a perdonare rapidamente i malintesi o gli sgarbi relazionali, focalizzandomi sul futuro del rapporto.",1,4,1],
+  ["Nell'impossibilità di rispettare una scadenza o un appuntamento, avviso il referente con ampio anticipo proponendo un'alternativa.",1,4,1],
+  ["Dico di \"no\" con fermezza alle richieste secondarie per proteggere il tempo da dedicare ai miei obiettivi prioritari.",3,2,1],
+  ["Misuro il valore del mio lavoro in base all'impatto reale e alla mia soddisfazione interna, piuttosto che sul prestigio sociale.",2,3,1],
+  ["Ascolto l'interlocutore fino alla fine della sua argomentazione prima di esporre il mio punto di vista.",1,2,1],
+  ["Prendo le grandi decisioni della mia vita con serenità, senza farmi bloccare dall'ansia.",0,4,1],
+  ["Riconosco che il successo o il fallimento dei miei progetti dipendono principalmente dalle mie scelte e dalle mie azioni.",2,1,1],
+  ["Dedico un ascolto attento e rispettoso a chi mi parla, sforzandomi di cogliere il valore in ogni conversazione.",1,2,1],
+  ["Sintetizzo concetti complessi in poche parole semplici, andando dritto al punto focale del discorso.",3,3,1],
+  ["Credo che la collaborazione basata sulla fiducia reciproca sia più efficace della pura competizione difensiva.",0,3,1],
+  ["Mantengo fede alle promesse di aiuto, contatti o documenti fatte ad altri, monitorando i miei impegni.",1,4,1],
+  ["Preservo la mia motivazione nello studio e nel lavoro indipendentemente dalle condizioni esterne o da eventi quotidiani negativi.",2,2,1],
+  ["Aggiorno costantemente i miei metodi di lavoro non appena individuo un sistema più efficiente del precedente.",0,0,1],
+  ["Ci sono giorni in cui mi sento improvvisamente giù di morale o nervoso senza che sia successo nulla di particolarmente grave.",0,4,-1],
+  ["Mantengo standard elevati di produttività anche in ambienti di lavoro neutrali o privi di costanti feedback positivi.",2,2,1],
+  ["Interpello con sicurezza figure autorevoli o di rilievo per proporre progetti, avanzare richieste o chiedere pareri.",1,0,1],
+  ["Onoro puntualmente gli impegni presi, tanto da essere considerato dagli altri un punto di riferimento affidabile.",1,4,1],
+  ["Trovo la massima spinta all'azione nella mia autorealizzazione, a prescindere da premi in denaro o visibilità pubblica.",2,3,1],
+  ["Quando illustro un progetto, adatto il linguaggio al livello dell'interlocutore partendo sempre dal contesto.",3,3,1],
+  ["Sostengo le mie opinioni con rispetto e fermezza anche quando il contesto familiare o amicale esprime pareri discordanti.",2,3,1],
+  ["Rispetto rigorosamente gli accordi presi con gli altri, anteponendoli alle mie comodità del momento.",1,4,1],
+  ["Affronto tempestivamente le decisioni complesse, assumendomi l'onere di sbloccare la situazione.",3,1,1],
+  ["Sperimento volentieri percorsi e procedure non convenzionali se intravedo la possibilità di ottimizzare i risultati.",0,0,1],
+  ["La mia motivazione è alimentata dai miei valori guida personali, rendendomi indipendente dai riconoscimenti esterni.",2,3,1],
+  ["Mantengo un'eccellente capacità di concentrazione focalizzandomi sul compito, indipendentemente dal disordine circostante.",2,2,1],
+  ["Accetto il verdetto dei dati empirici, modificando la mia opinione se smentita dai fatti concreti.",3,4,1],
+  ["Mantengo un approccio critico e oggettivo verso le mie stesse idee, ascoltando con attenzione i segnali di allarme degli esperti.",3,4,1],
+];
+
+const AREA_NAMES = ["Personalità","Network sociale","Motivazione","Soft skill operative"];
+const POLARITIES = [
+  [{left:"Apertura",right:"Pragmaticità"},{left:"Coscienziosità",right:"Disorganizzazione"},{left:"Estroversione",right:"Introversione"},{left:"Cooperatività",right:"Competitività"},{left:"Stabilità emotiva",right:"Vulnerabilità"}],
+  [{left:"Proattività relazionale",right:"Passività"},{left:"Generosità",right:"Opportunismo"},{left:"Empatia",right:"Egocentrismo"},{left:"Resilienza al rifiuto",right:"Paura del rifiuto"},{left:"Affidabilità",right:"Inaffidabilità"}],
+  [{left:"Perseveranza",right:"Discontinuità"},{left:"Locus interno",right:"Locus esterno"},{left:"Focus motivazionale",right:"Disorientamento"},{left:"Autodeterminazione",right:"Eterodeterminazione"}],
+  [{left:"Flessibilità",right:"Rigidità"},{left:"Problem solving",right:"Paralisi da analisi"},{left:"Gestione strategica",right:"Dispersione"},{left:"Chiarezza comunicativa",right:"Comunicazione confusa"},{left:"Pensiero critico",right:"Bias d'innamoramento"}],
+];
+
+// ── PROFILI IDEALI — 19 valori nell'ordine delle polarità ────────
+// Ordine: [Apertura, Coscienziosità, Estroversione, Cooperatività, StabEmotiva,
+//          ProattRel, Generosità, Empatia, ResRifiuto, Affidabilità,
+//          Perseveranza, Locus, Focus, Autodeterminazione,
+//          Flessibilità, ProblemSolving, GestTempo, Chiarezza, PensieroCritico]
+
+const IDEAL = {
+  visionario:   [92, 55, 28, 55, 65,  28, 55, 58, 50, 60,  82, 80, 75, 90,  55, 62, 60, 65, 70],
+  architetto:   [60, 92, 50, 60, 70,  45, 55, 55, 55, 85,  80, 88, 80, 70,  35, 45, 85, 75, 80],
+  networker:    [65, 55, 80, 80, 65,  90, 88, 90, 75, 88,  45, 65, 55, 65,  65, 55, 55, 70, 60],
+  combattente:  [60, 70, 50, 60, 90,  55, 60, 60, 70, 75,  90, 88, 75, 75,  35, 65, 70, 65, 65],
+  pragmatico:   [70, 60, 65, 55, 70,  60, 60, 60, 70, 65,  75, 85, 78, 72,  80, 92, 85, 70, 35],
+  leader:       [60, 70, 70, 90, 75,  75, 80, 88, 65, 90,  70, 72, 68, 68,  70, 45, 65, 80, 65],
+  esploratore:  [75, 65, 65, 68, 65,  65, 68, 68, 62, 68,  60, 68, 58, 68,  68, 65, 60, 65, 65],
+  completo:     [78, 80, 72, 78, 80,  78, 78, 80, 75, 85,  82, 85, 80, 82,  78, 78, 80, 80, 80],
+};
+
+// ── REPORTS dettagliati per archetipo ───────────────────────────
+const REPORTS = {
+  visionario: `SINTESI CLINICA
+Il candidato presenta un profilo caratterizzato da elevata apertura all'esperienza e forte motivazione intrinseca, con punteggi significativamente alti nelle dimensioni di curiosità intellettuale e autodeterminazione. Il pattern suggerisce una personalità con marcata propensione all'innovazione e pensiero divergente, controbilanciata da una rete relazionale ancora in fase di sviluppo e da una tendenza all'introversione che può limitare la capacità di trasmettere la visione all'esterno.
+
+ANALISI PUNTI DI FORZA
+La dimensione di apertura all'esperienza emerge come tratto dominante: il candidato mostra una spinta genuina verso l'esplorazione di ambiti nuovi e la generazione di idee originali. La motivazione intrinseca è solida e stabile, non dipendente da validazione esterna — un indicatore molto positivo per la sostenibilità del percorso imprenditoriale nel lungo periodo. L'autodeterminazione alta indica che le scelte di questo founder sono guidate da valori profondi piuttosto che da pressioni sociali o aspettative altrui, il che riduce significativamente il rischio di abbandono nei momenti difficili. La capacità di mantenere il focus sulla visione nonostante lo scetticismo esterno è un asset critico nelle fasi early-stage.
+
+ANALISI AREE CRITICHE
+Il network sociale rappresenta l'area di maggiore fragilità strutturale: punteggi bassi in proattività relazionale e tendenza all'introversione possono rallentare significativamente la fase di traction, dove le connessioni sono tutto. Da monitorare la tendenza a lavorare in isolamento, che nel breve termine può sembrare produttiva ma nel medio periodo produce cecità strategica. La comunicazione pubblica è un'area critica: saper vendere la visione a investitori, clienti e potenziali co-founder è competenza non negoziabile.
+
+DINAMICHE DI TEAM
+In un team, questo founder tenderà ad assumere naturalmente il ruolo di generatore di visione e direzione strategica, lasciando ad altri l'esecuzione operativa. Il rischio principale è la difficoltà a delegare davvero — la visione è così personale che il controllo diventa faticoso da mollare. Potrebbero emergere frizioni con profili molto operativi o con co-founder che preferiscono decisioni consensuali.
+
+RACCOMANDAZIONI PER L'INCUBATORE
+1. Inserire questo founder in contesti di networking strutturato per sviluppare la muscolatura relazionale in modo graduale e protetto.
+2. Affiancare un mentor con forte background commerciale o di business development.
+3. Monitorare la tendenza all'isolamento: check-in settimanali brevi per verificare che il lavoro solitario non diventi un blocco.
+4. Stimolare esercizi di comunicazione della visione (elevator pitch, storytelling).
+
+SCALA LIE
+Il profilo non mostra pattern evidenti di desiderabilità sociale marcata. Le risposte risultano internamente coerenti. L'attendibilità del test è buona.
+
+NOTA METODOLOGICA
+Verificare in colloquio se la bassa proattività relazionale riflette una preferenza genuina o una competenza non ancora sviluppata — la distinzione è rilevante ai fini del programma di supporto.`,
+
+  architetto: `SINTESI CLINICA
+Il profilo mostra una coscienziosità molto elevata associata a un locus of control interno solido, con punteggi che indicano forte disciplina operativa e capacità pianificatoria. La dimensione di flessibilità risulta compressa, suggerendo una tendenza alla rigidità procedurale che potrebbe costituire un fattore di rischio nei contesti ad alta volatilità tipici delle startup.
+
+ANALISI PUNTI DI FORZA
+La coscienziosità elevata è una risorsa rara nel mondo startup, dove la disciplina di esecuzione è spesso il collo di bottiglia tra idea e prodotto. Questo founder sa costruire processi, rispettare le scadenze e portare a termine compiti complessi senza dispersione. Il locus of control interno forte garantisce assunzione piena di responsabilità. L'autonomia decisionale è marcata — in assenza di linee guida, procede da solo con fiducia nelle proprie valutazioni.
+
+ANALISI AREE CRITICHE
+La bassa flessibilità operativa è il segnale più critico: nei contesti startup il pivot è una necessità statistica, e chi fatica ad adattarsi rapidamente rischia di investire risorse in direzioni già invalidate dal mercato. Il problem solving tende all'analisi prolungata piuttosto che alla sperimentazione rapida. Da tenere d'occhio la gestione dello stress da imprevisto.
+
+DINAMICHE DI TEAM
+In team, questo founder assumerà il ruolo di garante della qualità e della struttura operativa. La tendenza al controllo procedurale può sfociare in micromanagement se non bilanciata da fiducia nella delega. I co-founder più spontanei potrebbero percepire questo founder come frenante.
+
+RACCOMANDAZIONI PER L'INCUBATORE
+1. Introdurre metodologie agili per allenare la flessibilità in un framework strutturato.
+2. Stimolare esercizi di "decision under uncertainty".
+3. Affiancare un co-founder o advisor con mentalità da pivot.
+4. Valorizzare esplicitamente le capacità operative nei contesti del programma.
+
+SCALA LIE
+Profilo coerente e internamente consistente. L'elevata coscienziosità si riflette anche nella cura con cui il test è stato compilato.
+
+NOTA METODOLOGICA
+Verificare in colloquio se la bassa flessibilità è tratto caratteriale stabile o risposta a contesti passati molto strutturati.`,
+
+  networker: `SINTESI CLINICA
+Il candidato mostra punteggi molto elevati nelle dimensioni relazionali — proattività, empatia, generosità, affidabilità — con un profilo network tra i più forti del campione. La perseveranza solitaria e il focus motivazionale in assenza di stimoli sociali risultano più compressi.
+
+ANALISI PUNTI DI FORZA
+La proattività relazionale è straordinaria: questo founder fa il primo passo naturalmente, coltiva i contatti nel tempo, condivide senza aspettarsi un ritorno immediato. Queste competenze sono direttamente correlate alla capacità di raccogliere fondi, costruire partnership e generare passaparola. L'empatia alta si traduce in ascolto autentico e capacità di sintonizzarsi sulle esigenze dei clienti. L'affidabilità è un asset reputazionale che si costruisce in anni.
+
+ANALISI AREE CRITICHE
+La perseveranza solitaria è il rischio principale: quando non ci sono persone intorno — nelle fasi di sviluppo prodotto, analisi dati, gestione burocratica — la motivazione può calare significativamente. Da monitorare la tendenza a sovra-investire nelle relazioni a scapito dell'esecuzione.
+
+DINAMICHE DI TEAM
+Questo founder sarà la colla del team. Il rischio è di diventare il "nice guy" che fatica a prendere decisioni difficili o impopolari. In un team molto tecnico potrebbe essere percepito come meno rigoroso.
+
+RACCOMANDAZIONI PER L'INCUBATORE
+1. Strutturare momenti di lavoro autonomo con obiettivi chiari e deadline definite.
+2. Affiancare un co-founder con forte orientamento all'esecuzione tecnica.
+3. Monitorare la qualità del network rispetto alla quantità.
+4. Stimolare la capacità di feedback diretto e decisione in situazioni di conflitto interpersonale.
+
+SCALA LIE
+Il profilo relazionale molto elevato potrebbe in parte riflettere desiderabilità sociale. Consigliare verifica comportamentale attraverso referenze o osservazione in contesti reali.
+
+NOTA METODOLOGICA
+Distinguere in colloquio tra competenza relazionale genuina e orientamento alla compiacenza. Chiedere esempi concreti di conflitti gestiti.`,
+
+  combattente: `SINTESI CLINICA
+Il profilo è dominato da stabilità emotiva molto elevata, perseveranza marcata e locus of control interno solido — una combinazione che indica alta resistenza psicologica alle avversità. La flessibilità operativa risulta compressa.
+
+ANALISI PUNTI DI FORZA
+La stabilità emotiva è la competenza più critica per un founder. Questo candidato non si fa destabilizzare dalle critiche, elabora i fallimenti rapidamente e riporta il focus sulle soluzioni. La perseveranza è eccezionale: sa mantenere l'impegno nel lungo periodo, anche nelle fasi burocratiche in cui molti founder perdono slancio.
+
+ANALISI AREE CRITICHE
+La bassa flessibilità è il contraltare diretto della resilienza: chi non si arrende facilmente fatica anche a riconoscere quando è il momento di cambiare strategia. Da monitorare il rischio di "sunk cost fallacy". La rigidità operativa può generare conflitti con co-founder più agili.
+
+DINAMICHE DI TEAM
+In team, questo founder è l'"ancora" emotiva nei momenti di crisi. Il rischio è l'irrigidimento decisionale: restare sul piano originale anche quando i dati dicono altro può essere percepita come mancanza di ascolto.
+
+RACCOMANDAZIONI PER L'INCUBATORE
+1. Introdurre esercizi strutturati di validazione del pivot sulla base di dati.
+2. Lavorare esplicitamente sul concetto di pivot come atto di intelligenza e non di resa.
+3. Affiancare un advisor con mentalità lean.
+4. Valorizzare la resilienza in contesti pubblici del programma.
+
+SCALA LIE
+Profilo autentico e internamente coerente.
+
+NOTA METODOLOGICA
+Verificare in colloquio se la bassa flessibilità riflette un tratto caratteriale o l'assenza di esperienze di pivot nella storia professionale.`,
+
+  pragmatico: `SINTESI CLINICA
+Il candidato mostra punteggi molto elevati nelle dimensioni di problem solving operativo, gestione del tempo e locus of control interno, con una marcata propensione all'azione immediata. Il pensiero critico sui dati risulta più compresso.
+
+ANALISI PUNTI DI FORZA
+Il bias all'azione è una delle competenze più ricercate in un founder early-stage: questo candidato non si paralizza nell'analisi ma testa, impara, corregge. La gestione strategica del tempo è solida: sa identificare le priorità e proteggere il tempo dalle distrazioni. Il locus of control interno garantisce ownership totale.
+
+ANALISI AREE CRITICHE
+Il pensiero critico sui dati è l'area di sviluppo principale: la velocità decisionale, se non calibrata da un'analisi fredda dei feedback di mercato, può portare a iterare nella direzione sbagliata con grande efficienza. Il rischio del bias d'innamoramento è reale per questo profilo.
+
+DINAMICHE DI TEAM
+In team, questo founder sarà il motore dell'esecuzione. Il rischio è bruciare i co-founder più riflessivi. Le riunioni tendono a essere brevi e orientate alle decisioni.
+
+RACCOMANDAZIONI PER L'INCUBATORE
+1. Introdurre momenti strutturati di analisi dei segnali deboli dai clienti.
+2. Affiancare un advisor o co-founder con forte orientamento analitico.
+3. Stimolare l'abitudine alla documentazione delle assunzioni prima di ogni sprint.
+4. Collegare esplicitamente velocità di esecuzione alla qualità dell'apprendimento.
+
+SCALA LIE
+Profilo coerente. La praticità del candidato si riflette anche nel modo in cui ha compilato il test.
+
+NOTA METODOLOGICA
+Verificare in colloquio la capacità di fermarsi e ascoltare feedback negativi sul prodotto.`,
+
+  leader: `SINTESI CLINICA
+Il profilo mostra punteggi molto elevati nelle dimensioni di cooperatività, empatia e affidabilità, con una marcata orientazione alla costruzione di contesti relazionali sani e produttivi. La velocità decisionale in condizioni di incertezza risulta compressa.
+
+ANALISI PUNTI DI FORZA
+La capacità di costruire fiducia è il superponere di questo founder: le persone si fidano di lui perché mantiene le promesse, ascolta davvero e antepone il bene del team. Questa qualità è direttamente correlata alla capacità di attrarre e trattenere talenti. L'affidabilità è una reputazione che diventa asset competitivo nel fundraising.
+
+ANALISI AREE CRITICHE
+La bassa velocità decisionale in condizioni di incertezza è il principale punto di fragilità: alcune decisioni devono essere prese in solitudine, rapidamente e senza consenso. Da monitorare la tendenza a evitare conflitti diretti. Il rischio del "nice guy" founder è reale.
+
+DINAMICHE DI TEAM
+Questo founder sarà il punto di riferimento emotivo del team. Il rischio è sovra-caricarsi della gestione delle dinamiche interpersonali a scapito della direzione strategica.
+
+RACCOMANDAZIONI PER L'INCUBATORE
+1. Lavorare sulla "decisive leadership": scenari di crisi simulati.
+2. Stimolare la pratica del feedback diretto e della gestione del conflitto costruttivo.
+3. Affiancare un co-founder con alto orientamento all'esecuzione e bassa dipendenza dal consenso.
+4. Monitorare il rischio di burnout da over-responsabilizzazione emotiva.
+
+SCALA LIE
+Le dimensioni relazionali molto elevate meritano una verifica comportamentale. Consigliare raccolta di referenze.
+
+NOTA METODOLOGICA
+Distinguere in colloquio tra orientamento alla collaborazione genuino e evitamento del conflitto difensivo.`,
+
+  esploratore: `SINTESI CLINICA
+Il profilo presenta una distribuzione dei punteggi notevolmente equilibrata tra le quattro aree, senza picchi dominanti né punti di fragilità marcati. Questo pattern indica un founder con competenze trasversali solide e capacità di adattamento, ma con un rischio specifico di dispersione dell'energia.
+
+ANALISI PUNTI DI FORZA
+La poliedricità è un asset prezioso nelle prime fasi di una startup, quando il founder deve essere allo stesso tempo venditore, product manager, recruiter e CFO. La capacità di vedere connessioni trasversali tra domini diversi è alla base delle innovazioni più interessanti. L'adattabilità alta garantisce resilienza ai cambi di contesto e ai pivot.
+
+ANALISI AREE CRITICHE
+L'assenza di un punto di forza dominante è anche il principale rischio. Il focus e la perseveranza sul dettaglio sono le aree più critiche: con così tante direzioni possibili e così tanti interessi, il rischio di dispersione è concreto.
+
+DINAMICHE DI TEAM
+In team, questo founder funziona meglio come connector e facilitatore tra profili molto diversi. Il rischio è non avere un ruolo chiaramente definito, il che può creare ambiguità nelle responsabilità.
+
+RACCOMANDAZIONI PER L'INCUBATORE
+1. Lavorare su un esercizio di "scelta della specializzazione".
+2. Introdurre strumenti di focus e priorità (OKR, time blocking).
+3. Affiancare un co-founder con una specializzazione molto profonda.
+4. Valorizzare esplicitamente il contributo trasversale nei contesti del programma.
+
+SCALA LIE
+Il profilo equilibrato riduce i rischi di desiderabilità sociale marcata su singole dimensioni.
+
+NOTA METODOLOGICA
+Il pattern equilibrato può derivare sia da competenze genuinamente trasversali sia da una risposta mediocre su tutte le dimensioni. Il colloquio è essenziale per distinguere i due casi.`,
+
+  completo: `SINTESI CLINICA
+Il candidato presenta un profilo eccezionalmente bilanciato e complessivamente elevato su tutte e quattro le dimensioni dell'assessment, con punteggi minimi strutturalmente alti e media generale superiore alla norma. Questo pattern — statisticamente raro — indica un founder con competenze integrate e complementari. La scala LIE merita attenzione specifica data la rarità del profilo.
+
+ANALISI PUNTI DI FORZA
+L'integrazione tra dimensioni normalmente in tensione — visione e esecuzione, autonomia e collaborazione, perseveranza e flessibilità — è il tratto più distintivo di questo profilo. La stabilità motivazionale alta garantisce continuità nel lungo periodo. Il locus of control interno produce ownership totale senza vittimismo.
+
+ANALISI AREE CRITICHE
+Con un profilo così completo, il rischio principale è la tendenza a voler gestire tutto in prima persona. La specializzazione verticale è l'area di sviluppo principale: in fase di scaling, il mercato premia chi eccelle in una dimensione specifica.
+
+DINAMICHE DI TEAM
+Questo founder è un anchor naturale per il team su tutte le dimensioni. Il rischio è diventare indispensabile su troppi fronti, generando dipendenza nel team e saturazione personale.
+
+RACCOMANDAZIONI PER L'INCUBATORE
+1. Lavorare esplicitamente sulla delega strategica.
+2. Stimolare la costruzione di un team con specializzazioni molto verticali.
+3. Monitorare il rischio di burnout da over-responsabilizzazione.
+4. Verificare la scala LIE attraverso colloquio approfondito.
+
+SCALA LIE
+La rarità del profilo impone una verifica attenta. Punteggi così elevati e bilanciati possono riflettere un founder genuinamente eccezionale, ma anche una risposta orientata alla desiderabilità sociale.
+
+NOTA METODOLOGICA
+Verificare in colloquio se il bilanciamento riflette competenze reali o una tendenza a rispondere in modo moderato su tutto. Chiedere esempi concreti di fallimento, conflitto e decisione difficile.`
+};
+
+// ── 8 ARCHETIPI ─────────────────────────────────────────────────
+const ARCHETYPES = [
+  {
+    id:"visionario", name:"Il Visionario Solitario", color:"#534AB7",
+    tagline:"La tua mente corre più veloce del mondo intorno a te.",
+    descrizione:"Hai una capacità rara di vedere dove gli altri ancora non arrivano. La tua curiosità è autentica e il tuo motore interno non si spegne mai — anche quando nessuno intorno a te capisce ancora dove stai andando. Sei il tipo di persona che non ha bisogno di approvazione esterna per credere in un'idea: se la senti giusta, la insegui.",
+    superpoteri:"Visione originale e pensiero laterale. Motivazione intrinseca fortissima. Capacità di restare fedele alla direzione anche sotto pressione.",
+    crescita:"Il tuo punto di sviluppo è il network: le tue idee diventano ancora più potenti quando trovano le persone giuste che le amplificano.",
+    cofounder:"Hai bisogno di qualcuno che trasformi la tua visione in piano operativo — un executor metodico che ami i dettagli quanto tu ami il quadro grande.",
+    strengths:["Visione strategica","Motivazione intrinseca","Pensiero originale"],
+    gaps:["Network building","Comunicazione pubblica"],
+  },
+  {
+    id:"architetto", name:"L'Architetto Metodico", color:"#0F6E56",
+    tagline:"Dove gli altri vedono caos, tu vedi già il sistema da costruire.",
+    descrizione:"Sei la persona che porta ordine dove regna la confusione. La tua coscienziosità è un asset rarissimo nel mondo startup: sai pianificare, anticipare e seguire un piano fino in fondo senza perdere il filo. Il tuo locus of control è interno — non aspetti che le cose migliorino da sole, le costruisci.",
+    superpoteri:"Pianificazione solida e disciplina operativa. Autonomia decisionale. Capacità di portare a termine anche le fasi più complesse e burocratiche.",
+    crescita:"Il tuo territorio di crescita è la velocità decisionale: a volte analizzi troppo a lungo prima di fare il primo passo. Il perfetto può essere nemico del fatto.",
+    cofounder:"Cerca qualcuno con una forte propensione al rischio e all'improvvisazione — qualcuno che ti spingerà ad agire anche quando il piano non è ancora perfetto.",
+    strengths:["Disciplina operativa","Locus interno","Pianificazione"],
+    gaps:["Velocità decisionale","Adattamento al pivot"],
+  },
+  {
+    id:"networker", name:"Il Networker Nato", color:"#185FA5",
+    tagline:"Le persone giuste arrivano sempre — perché le hai coltivate nel tempo.",
+    descrizione:"Hai un talento naturale per costruire e mantenere relazioni autentiche. Non sei il tipo che usa le persone: le ascolti, le connetti, condividi senza aspettarti un ritorno immediato. Questo ti rende straordinariamente efficace nei contesti dove contano la fiducia e il passaparola — che nel mondo startup sono tutto.",
+    superpoteri:"Proattività relazionale fuori scala. Empatia autentica e ascolto attivo. Generosità nel network che genera fiducia a lungo termine.",
+    crescita:"Il tuo punto di sviluppo è la perseveranza solitaria: quando non ci sono persone intorno a cui appoggiarti, la motivazione può calare. Allena il motore interno.",
+    cofounder:"Hai bisogno di qualcuno con una forte spina dorsale operativa — qualcuno che tenga il punto anche nei momenti di noia burocratica.",
+    strengths:["Costruzione network","Empatia","Affidabilità relazionale"],
+    gaps:["Perseveranza solitaria","Focus a lungo termine"],
+  },
+  {
+    id:"combattente", name:"Il Combattente Resiliente", color:"#993C1D",
+    tagline:"Hai imparato a cadere bene. Ed è per questo che non smetti mai di alzarti.",
+    descrizione:"La tua stabilità emotiva è una delle tue armi più potenti. Dove altri si bloccano davanti alla critica o al fallimento, tu elabori, riparti e vai avanti. Non hai bisogno di condizioni perfette per dare il meglio — anzi, il caos tende a farti emergere. Sei il tipo di founder che tiene la barca anche nella tempesta.",
+    superpoteri:"Resistenza psicologica alle crisi. Perseveranza di lungo periodo. Locus of control interno solido anche sotto pressione.",
+    crescita:"Il tuo territorio di crescita è la flessibilità: a volte la resilienza si trasforma in rigidità. Imparare a riconoscere quando è il momento di cambiare rotta è il prossimo step.",
+    cofounder:"Cerca qualcuno con alta apertura al cambiamento e mentalità da pivot — qualcuno che ti aiuti a distinguere la perseveranza sana dall'attaccamento al piano originale.",
+    strengths:["Resilienza emotiva","Perseveranza","Locus interno"],
+    gaps:["Flessibilità al pivot","Adattamento rapido"],
+  },
+  {
+    id:"pragmatico", name:"Il Pragmatico d'Azione", color:"#3B6D11",
+    tagline:"Mentre gli altri pianificano, tu hai già testato tre soluzioni.",
+    descrizione:"Sei un esecutore nato. Non perdi tempo in analisi infinite: vedi un problema, formuli un'ipotesi, la testi. Subito. Questa capacità di muoverti senza bisogno di certezza totale è un vantaggio competitivo enorme nelle fasi early-stage di una startup, dove la velocità di apprendimento batte qualsiasi piano perfetto.",
+    superpoteri:"Velocità decisionale e bias all'azione. Gestione efficace delle priorità. Capacità di trovare soluzioni pratiche anche con poche risorse.",
+    crescita:"Il tuo territorio di crescita è il pensiero critico sui dati: la velocità di azione è preziosa, ma ogni tanto vale la pena fermarsi ad ascoltare i segnali d'allarme prima di accelerare.",
+    cofounder:"Hai bisogno di qualcuno con una forte cultura analitica — qualcuno che ti faccia le domande scomode sui numeri quando tu sei già proiettato al passo successivo.",
+    strengths:["Bias all'azione","Gestione del tempo","Problem solving pratico"],
+    gaps:["Pensiero critico","Ascolto dei dati"],
+  },
+  {
+    id:"leader", name:"Il Leader Empatico", color:"#993556",
+    tagline:"Le persone ti seguono non perché devono, ma perché si fidano di te.",
+    descrizione:"Hai una qualità rara: sai far stare bene le persone intorno a te, e questo si traduce in squadre che funzionano, in collaborazioni durature, in un ambiente dove tutti danno il meglio. La tua affidabilità è leggendaria — quando dici una cosa, la fai. Questo ti rende un anchor naturale in qualsiasi team.",
+    superpoteri:"Costruzione di fiducia e coesione nel team. Empatia applicata alla leadership. Affidabilità come standard operativo.",
+    crescita:"Il tuo territorio di crescita è la decisione rapida in condizioni di incertezza: la tendenza a cercare consenso prima di agire può rallentare nei momenti in cui serve decidere da soli.",
+    cofounder:"Cerca qualcuno con alta propensione al rischio e velocità decisionale — qualcuno che non abbia paura di prendere decisioni impopolari quando il momento lo richiede.",
+    strengths:["Leadership empatica","Affidabilità","Costruzione del team"],
+    gaps:["Decisione solitaria","Velocità in incertezza"],
+  },
+  {
+    id:"esploratore", name:"L'Esploratore Poliedrico", color:"#BA7517",
+    tagline:"Hai il dono di vedere connessioni dove gli altri vedono solo punti separati.",
+    descrizione:"Il tuo profilo è equilibrato e multidimensionale: non hai un solo punto di forza dominante, ma una capacità rara di muoverti con disinvoltura tra mondi diversi. Sei curioso, adattabile, e riesci a portare prospettive trasversali che chi è molto specializzato spesso non vede. Questo è un asset straordinario per chi vuole costruire qualcosa di nuovo.",
+    superpoteri:"Pensiero trasversale e visione sistemica. Adattabilità a contesti diversi. Capacità di fare da ponte tra profili molto diversi tra loro.",
+    crescita:"Il tuo territorio di crescita è la focalizzazione: con così tante direzioni possibili, il rischio è disperdere l'energia. Scegliere una priorità e proteggerla è il prossimo step.",
+    cofounder:"Hai bisogno di qualcuno con una specializzazione molto profonda — un esperto che ti aiuti a trasformare la visione trasversale in esecuzione verticale.",
+    strengths:["Pensiero trasversale","Adattabilità","Visione sistemica"],
+    gaps:["Focus e priorità","Perseveranza sul dettaglio"],
+  },
+  {
+    id:"completo", name:"Il Founder Completo", color:"#444441",
+    tagline:"Sei la persona rara che sa tenere insieme visione, esecuzione e relazioni.",
+    descrizione:"Il tuo profilo è eccezionalmente bilanciato su tutte le dimensioni che contano per un founder. Non hai un punto debole strutturale — riesci a muoverti con competenza sia nella costruzione delle relazioni, sia nell'esecuzione operativa, sia nel mantenere la motivazione nei momenti difficili. Questo ti rende un candidato naturale al ruolo di founder principale.",
+    superpoteri:"Equilibrio tra visione e operatività. Capacità di leadership e di esecuzione in parallelo. Motivazione stabile e locus of control interno.",
+    crescita:"Attenzione: con un profilo così completo, il rischio è voler fare tutto da soli. Delegare in modo strategico è la chiave per scalare.",
+    cofounder:"Cerca qualcuno con una specializzazione estrema in un'area chiave per il tuo mercato — non qualcuno che ti complementi psicologicamente, ma qualcuno che porti una competenza tecnica verticale.",
+    strengths:["Profilo bilanciato","Leadership operativa","Stabilità motivazionale"],
+    gaps:["Delega strategica","Specializzazione verticale"],
+  },
+];
+
+// ── DISTANZA EUCLIDEA ────────────────────────────────────────────
+function assignArchetype(scores) {
+  // Appiattisce i punteggi in vettore flat di 19 valori
+  const flat = scores.flatMap(area => area.map(p => p.value));
+
+  let best = null, bestDist = Infinity;
+  ARCHETYPES.forEach(a => {
+    const ideal = IDEAL[a.id];
+    const dist = Math.sqrt(
+      flat.reduce((sum, v, i) => sum + Math.pow(v - ideal[i], 2), 0)
+    );
+    if (dist < bestDist) { bestDist = dist; best = a; }
+  });
+  return best;
+}
+
+const answers = new Array(Q.length).fill(0);
+let userName='', userEmail='', savedScores=null, savedArchetype=null;
+
+function startQuiz() {
+  const n=document.getElementById('input-name').value.trim();
+  const e=document.getElementById('input-email').value.trim();
+  if(!n){document.getElementById('input-name').focus();return;}
+  if(!e||!e.includes('@')){document.getElementById('input-email').focus();return;}
+  userName=n; userEmail=e;
+  document.getElementById('screen-welcome').style.display='none';
+  document.getElementById('screen-quiz').style.display='block';
+  document.getElementById('q-header-name').textContent=n;
+  buildQuestions();
+}
+
+function buildQuestions() {
+  const c=document.getElementById('questions-container');
+  Q.forEach((q,i)=>{
+    const row=document.createElement('div');
+    row.className='q-row'; row.id='q'+i;
+    row.innerHTML=`<div class="q-text"><span class="q-num">${i+1}.</span>${q[0]}</div>
+      <div class="scale-row">${LABELS.map((l,j)=>`<button class="scale-btn" onclick="pick(${i},${j+1})"><span class="sn">${j+1}</span><span class="sw">${l}</span></button>`).join('')}</div>`;
+    c.appendChild(row);
+  });
+}
+
+function pick(idx,val) {
+  answers[idx]=val;
+  document.getElementById('q'+idx).classList.remove('missing');
+  document.getElementById('q'+idx).querySelectorAll('.scale-btn').forEach((b,j)=>b.classList.toggle('selected',j+1===val));
+  const done=answers.filter(a=>a>0).length;
+  document.getElementById('prog-fill').style.width=(done/TOTAL*100)+'%';
+  document.getElementById('q-count').textContent=done+' / '+TOTAL;
+}
+
+function handleSubmit() {
+  const missing=answers.map((a,i)=>a===0?i:-1).filter(i=>i>=0);
+  if(missing.length){
+    missing.forEach(i=>document.getElementById('q'+i).classList.add('missing'));
+    const msg=document.getElementById('missing-msg');
+    msg.textContent=missing.length+' domande senza risposta. Scorri su per completarle.';
+    msg.style.display='block';
+    document.getElementById('q'+missing[0]).scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  showResults();
+}
+
+function computeScores() {
+  const sums={},counts={};
+  Q.forEach(([,area,pol,dir],i)=>{
+    const k=area+'_'+pol;
+    const v=dir===1?((answers[i]-1)/4)*100:((5-answers[i])/4)*100;
+    sums[k]=(sums[k]||0)+v; counts[k]=(counts[k]||0)+1;
+  });
+  return POLARITIES.map((pols,aIdx)=>pols.map((p,pIdx)=>{
+    const k=aIdx+'_'+pIdx;
+    return{...p,value:counts[k]?Math.round(sums[k]/counts[k]):50,name:p.left+' vs '+p.right};
+  }));
+}
+
+function iColor(v) {
+  if(v>=50){const t=(v-50)/50;return`rgb(${Math.round(180+(29-180)*t)},${Math.round(178+(158-178)*t)},${Math.round(169+(117-169)*t)})`;}
+  const t=(50-v)/50;return`rgb(${Math.round(180+(216-180)*t)},${Math.round(178+(90-178)*t)},${Math.round(169+(48-169)*t)})`;
+}
+
+function buildAnswerLog() {
+  return Q.map((q,i)=>`${i+1}. ${q[0]}\n   → ${LABELS[answers[i]-1]} (${answers[i]})`).join('\n\n');
+}
+
+function buildPunteggi(scores) {
+  return scores.map((pols,aIdx)=>AREA_NAMES[aIdx]+': '+pols.map(p=>`${p.name}=${p.value}/100`).join('; ')).join('\n');
+}
+
+function showResults() {
+  document.getElementById('screen-quiz').style.display='none';
+  document.getElementById('screen-results').style.display='block';
+  document.getElementById('r-name').textContent=userName;
+  window.scrollTo(0,0);
+  savedScores=computeScores();
+  savedArchetype=assignArchetype(savedScores);
+  renderAreas(savedScores);
+  renderProfileCard(savedScores,savedArchetype);
+  sendToSheet(savedScores,savedArchetype);
+}
+
+function renderAreas(scores) {
+  const c=document.getElementById('r-areas');
+  scores.forEach((pols,aIdx)=>{
+    const avg=Math.round(pols.reduce((s,p)=>s+p.value,0)/pols.length);
+    const block=document.createElement('div');
+    block.className='area-block';
+    block.innerHTML=`<div class="area-title"><span>${AREA_NAMES[aIdx]}</span><span>media ${avg}/100</span></div>`+
+      pols.map(p=>{const v=p.value,il=v>=50,col=iColor(v);return`<div class="pol-row">
+        <div class="pole-labels"><span class="pole-l${il?' dominant':''}">${p.left}</span><span class="pole-l${!il?' dominant':''}" style="text-align:right">${p.right}</span></div>
+        <div class="bar-track"><div class="bar-dot" style="left:${v}%;border-color:${col};"></div></div>
+        <div class="score-lbl">${il?'← '+p.left:p.right+' →'} · ${v}/100</div>
+      </div>`;}).join('');
+    c.appendChild(block);
+  });
+}
+
+function renderProfileCard(scores,a) {
+  const areaMeans=scores.map(pols=>Math.round(pols.reduce((s,p)=>s+p.value,0)/pols.length));
+  const card=document.getElementById('r-profile-card');
+  card.innerHTML=`
+    <div class="profile-top">
+      <p class="profile-eyebrow" style="color:${a.color}">La tua personalità imprenditoriale</p>
+      <p class="profile-archetype-name">${a.name}</p>
+      <p class="profile-tagline">"${a.tagline}"</p>
+      <div class="mini-bars">${AREA_NAMES.map((n,i)=>`
+        <div class="mini-row">
+          <span class="mini-label">${n}</span>
+          <div class="mini-track"><div class="mini-fill" style="width:${areaMeans[i]}%;background:${a.color};opacity:.7"></div></div>
+          <span class="mini-val">${areaMeans[i]}</span>
+        </div>`).join('')}</div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-section" style="border-top:none;padding-top:0;margin-top:0;">
+        <p class="profile-section-label">Chi sei come founder</p>
+        <p class="profile-section-text">${a.descrizione}</p>
+      </div>
+      <div class="profile-section">
+        <p class="profile-section-label">I tuoi superpoteri</p>
+        <p class="profile-section-text">${a.superpoteri}</p>
+        <div class="tags">${a.strengths.map(s=>`<span class="tag s">${s}</span>`).join('')}</div>
+      </div>
+      <div class="profile-section">
+        <p class="profile-section-label">Il territorio da esplorare</p>
+        <p class="profile-section-text">${a.crescita}</p>
+        <div class="tags">${a.gaps.map(g=>`<span class="tag g">${g}</span>`).join('')}</div>
+      </div>
+      <div class="profile-section">
+        <p class="profile-section-label">Il co-founder che ti completa</p>
+        <p class="profile-section-text">${a.cofounder}</p>
+      </div>
+    </div>`;
+  card.style.display='block';
+  document.getElementById('btn-email').disabled=false;
+}
+
+async function sendToSheet(scores,archetype) {
+  if(!SHEET_URL||SHEET_URL==='INCOLLA_QUI_URL_APPS_SCRIPT') return;
+  const report=REPORTS[archetype.id]||'';
+  const row={
+    action:'save',
+    nome:userName, email:userEmail,
+    data:new Date().toLocaleString('it-IT'),
+    riepilogo_risposte:buildAnswerLog(),
+    archetipo:archetype.name,
+    punteggi:buildPunteggi(scores),
+    report_dettagliato:'=== REPORT FMA — '+userName+' ===\nArchetipo: '+archetype.name+'\n\n'+report,
+  };
+  scores.forEach((pols,aIdx)=>{
+    pols.forEach(p=>{row[AREA_NAMES[aIdx].replace(/\s/g,'_')+'__'+p.left.replace(/[\s\/]/g,'_')]=p.value;});
+  });
+  try {
+    await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(row)});
+  } catch(e){}
+}
+
+async function requestEmail() {
+  if(!SHEET_URL||SHEET_URL==='INCOLLA_QUI_URL_APPS_SCRIPT'){
+    setStatus('URL Apps Script non configurato.','err'); return;
+  }
+  const btn=document.getElementById('btn-email');
+  btn.disabled=true;
+  setStatus('Invio in corso…','');
+  const report=REPORTS[savedArchetype.id]||'';
+  try {
+    await fetch(SHEET_URL,{
+      method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        action:'email',
+        nome:userName,email:userEmail,
+        archetipo:savedArchetype.name,
+        punteggi:buildPunteggi(savedScores),
+        report_dettagliato:report,
+        riepilogo_risposte:buildAnswerLog(),
+      })
+    });
+    setStatus('✓ Report inviato! Controlla la tua email.','ok');
+  } catch(e){
+    setStatus('⚠ Errore nell\'invio. Contatta l\'organizzatore.','err');
+    btn.disabled=false;
+  }
+}
+
+function setStatus(msg,cls){
+  const el=document.getElementById('status-msg');
+  el.textContent=msg; el.className='status-msg'+(cls?' '+cls:'');
+}
+
+function restart(){
+  answers.fill(0); savedScores=null; savedArchetype=null;
+  document.getElementById('r-areas').innerHTML='';
+  document.getElementById('r-profile-card').innerHTML='';
+  document.getElementById('r-profile-card').style.display='none';
+  document.getElementById('questions-container').innerHTML='';
+  document.getElementById('btn-email').disabled=true;
+  setStatus('','');
+  document.getElementById('missing-msg').style.display='none';
+  document.getElementById('screen-results').style.display='none';
+  document.getElementById('screen-welcome').style.display='block';
+  document.getElementById('input-name').value='';
+  document.getElementById('input-email').value='';
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
